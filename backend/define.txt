@@ -1,0 +1,116 @@
+ body parser - its a middle ware for express 
+ helps developer to handle incoming body data (req.body)
+ as the raw data is hard to use it in code so convert/ parsing it to use it in req object 
+ wheter data in any format , may b in json format , url or any other data format can handle for server side appliction incoming data
+ same as express.json()
+
+ middleware - it is a function use inside a func ".use()" 
+            it is used to modify and handle the req and res object that can b used within code in server side 
+            it works in serialize way like 1st come -> work ->and then go next
+
+ express.Router - its a class to create modular routes
+      
+ wrong //// reason to use express.json - when try to do any activity with json data in express  , when we write execute the code every time refresh the index.js so we need a code to use json file in express as express.json and to not get interfed due to refresh of module wee need middleware.     
+
+
+
+joi :
+
+jwt :JWT stands for JSON Web Token. It's a way to securely share information (like user identity) between two parties — usually your app and a server.
+
+The information is:
+
+Encoded in JSON
+
+Signed, so you can verify it wasn’t changed
+
+It’s mostly used for authentication and authorization.
+
+🛠 JWT Structure (Simple View)
+A JWT has 3 parts, separated by dots:
+
+Copy
+Edit
+xxxxx.yyyyy.zzzzz
+These parts are:
+
+Header – Tells what type of token and algorithm is used
+
+Payload – Data you want to store (like user ID or role)
+
+Signature – Ensures the token wasn’t tampered with
+
+Looks like this in real life:
+
+json
+Copy
+Edit
+// Header
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+
+// Payload
+{
+  "userId": "123",
+  "role": "admin"
+}
+
+// Signature (auto-generated using secret)
+Then it becomes a long string, e.g.:
+
+Copy
+Edit
+
+
+
+bcrypt :bcrypt is a password hashing function. It's used to safely store passwords, so if someone breaks into your database, they can’t see user passwords.
+
+Bcrypt combines:
+
+The password
+
+The salt
+
+It runs EksBlowfish (a slow algorithm) multiple times (based on cost).
+
+It returns a string like:
+
+
+b'$2b$12$9v...verylongrandomhash...Kf'
+This is the only thing you store in the database.
+
+
+A SALT is a random string added to the password before hashing.
+
+
+import bcrypt
+
+salt = bcrypt.gensalt()
+print(salt)
+🧠 Internally:
+
+gensalt() generates a 16-byte random salt.
+
+It also encodes the work factor (how slow it should be).
+
+For example, b'$2b$12$abc...' means version 2b, cost 12, and salt.
+
+Why salt?
+If two users have password "123456", the salt ensures they get different hashes.
+
+
+What’s Cost or Work Factor?
+The cost or work factor is a measure of how much time it takes to hash a password. 
+bcrypt.gensalt(rounds=12)  # 2^12 = 4096 iterations internally
+The higher the number:
+
+Slower the hashing
+
+Safer it is from brute-force attacks
+
+But more CPU it uses
+
+🔧 You can adjust it over time as computers get faster.
+ 
