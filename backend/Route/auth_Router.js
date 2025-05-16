@@ -6,12 +6,12 @@ import userAuthenication from "../middleware/Auth_Middleware.js"
 const router = express.Router()
 
 // when we add a data through server post()
-router.post("/register" , registerUser )
+router.post("/register" ,registerUser )
 router.post("/" ,loginUser)
-router.post("/home"  ,createTodo)
-router.put("/home/:id",updateTodo)
-router.delete("/home/:id" , deleteTodo)
-router.get("/home" ,fetchTodo)
+router.post("/home"  ,userAuthenication,createTodo)
+router.put("/home/:id",userAuthenication,updateTodo)
+router.delete("/home/:id" , userAuthenication,deleteTodo)
+router.get("/home" ,userAuthenication,fetchTodo)
 
 
 export default router
