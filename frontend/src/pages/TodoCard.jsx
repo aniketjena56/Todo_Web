@@ -14,7 +14,12 @@ function TodoCard() {
   useEffect(()=>{
       const fetchTodos=async ()=>{
       try {
-        const res=await axios.get(`${BASE_URL}/home` )
+         const token = localStorage.getItem("token"); 
+         const res = await axios.get(`${BASE_URL}/home`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ Attach token here
+          },
+        });
         console.log(res.data);
         setTodos(res.data) // inside{message{} , todos[]} //because backend sends array directly
       } catch (error) {
@@ -33,7 +38,12 @@ function TodoCard() {
     
    
     // when we click "Add" we get a new data and then make a request to save the data in db and also to create a new file 
-      const addTodo = await axios.post(`${BASE_URL}/home`,{text: newTodo , completed:false})
+   const token = localStorage.getItem("token")
+      const addTodo = await axios.post(`${BASE_URL}/home`,{text: newTodo , completed:false } ,{
+        headers:{
+        Authorization : `Bearer ${token}`
+      }
+      })
       // then set the todo with previous data and a new data 
         setTodos([
           ...todos, addTodo.data.todo]// ✅ because backend sends {todo: {}}
@@ -67,7 +77,11 @@ function TodoCard() {
   // to save the edit when we click "save"
   const updateTodo= async()=>{
     try {
-       const res=await axios.put(`${BASE_URL}/home/${needId}` , {text : needText})
+      
+       const res=await axios.put(`${BASE_URL}/home/${needId}` , {text : needText} ,{
+        headers:{
+        Authorization : `Bearer ${localStorage.getItem("token")}`}
+      })
     // so here map created a new array and search the id with given id to add the edited text on that id
     // (inside ) mean if we wont get the text then save the same text without any change and if got then update with the new text
     setTodos(todos.map(t=>t._id === needId ? res.data.todo : t))
@@ -88,7 +102,9 @@ function TodoCard() {
 // so when clicked on the delete btn a id gets passed as an argument and here passed as parameter 
 const deleteTodo=async (todoId)=>{
   try {
-      await axios.delete(`${BASE_URL}/home/${todoId}`)
+      await axios.delete(`${BASE_URL}/home/${todoId}`,{
+        headers:{
+        Authorization : `Bearer ${localStorage.getItem("token")}`}})
     //  and now filter the by removing by creating a new array where the id is not there 
      setTodos(todos.filter(t=>t._id !== todoId))
   } catch (error) {
@@ -107,7 +123,9 @@ const deleteTodo=async (todoId)=>{
     try {
       // sending the updated data with a put request to update on dB
       const res= await axios.put(`${BASE_URL}/home/${todo._id}`, {completed: updatodo.completed,
-        text: updatodo.text,})
+        text: updatodo.text,},{
+        headers:{
+        Authorization : `Bearer ${localStorage.getItem("token")}`}})
       // now replace the old array with new array with the updated data , as maps create a new array
       // check the todo id we changed and t.id mean the data in new array if matched the update the new data or replace old data
       setTodos(todos.map(t=>t._id === todo._id ? res.data.todo : t))
