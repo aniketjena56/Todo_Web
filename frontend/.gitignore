@@ -12,9 +12,10 @@ node_modules
 dist
 dist-ssr
 
-# Local environment files
-*.local
-.env    # ✅ This line is correct — it will ignore your .env file
+# Environment variable files
+.env
+.env.local
+.env.*.local
 
 # Editor directories and files
 .vscode/*
